@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> College Smart Portal</title>
+    </head>
+    <body>
+        <h1>COLLEGE SMART PORTAL</h1>
+        <NAV>
+           <a href="{{ url_for('home')}}" >Home</a>
+           <a href="{{ url_for('records')}}">Records</a>
+           <a href="{{ url_for('notices')}}">Notices</a>
+        </NAV>
+        <hr>{% block content %}
+        {% endblock %}
+    </body>
+</html>

@@ -12,11 +12,10 @@ print("Percentage=",percentage)
 
 if percentage>=75:
     print(" Result:Distinction")
-elif percentage>=60:
+elif percentage>=65:
     print("Result:first class")   
 elif percentage>=45:
     print("Result:pass")   
 else:
     print("Result:fail")    
-     
-
+    

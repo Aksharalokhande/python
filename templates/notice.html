@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>NOTICE BOARD</h2>
+{% for key,value in notices.items() %}
+<p>
+    {{ key }} : {{ value }}
+</p>
+<hr>
+{% endfor %}
+{% endblock %}
