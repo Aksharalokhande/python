@@ -1,14 +1,34 @@
-{% extends "base.html"%} 
-{% block content %}
-<h2>Student records</h2>
-{% for student in students %}
-<p>
-    Name:{{student.name}}<br>
-    Course:{{student.course}}<br>
-    Attendance:{{student.attendance}}<br>
-    Marks:{{student.marks}}
 
-</p>
-<hr>
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    
+    <h2 class="text-center mb-4">
+        📊 Student Records 
+        <span class="badge bg-primary">{{ students|length }}</span>
+    </h2>
+
+    <div class="card p-3 shadow">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>👤 Name</th>
+                    <th>📚 Course</th>
+                    <th>✅ Attendance</th>
+                    <th>📝 Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.attendance }}</td>
+                    <td>{{ student.marks }}</td>
+                    </tr>
+                    
+                {% endfor %}
+</tbody>
+</table>
+
 {% endblock %}

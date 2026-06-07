@@ -1,13 +1,40 @@
 {% extends "base.html"%}
 {% block content %}
-<h2>Welcome</h2>
+
+
+<div class="container py-3"
+<div class="text-center my-4">
+
+<h7 class="display-6 fw-bold" style="color: #8000006f;"><div class="text-center">Welcome🙏</h7></div></div>
+
 <p><b>{{ college.college_name }}</b></p>
 <p>City:{{ college.city }}</p>
 <p>State:{{ college.state }}</p>
 
-<p>
-    Wellcome to college smart portal. 
-    This portal helps students manage attendance ,marks,and notices.
-    </p>
+<p class="col-lg-7 ">
+Welcome to college smart portal. 
+This portal helps  manage student course, attendance ,marks,and notices.
 </p>
+<h5>Mission</h5>
+<P>To provide an easy and efficient platform for managing
+  college information and student records.
+</P>
+</div>
+<div class="card">
+  <div class="card-body text-left">
+  <h5>📌Features:</h5>
+  <ul>
+    <li>Student Records</li>
+    <li>Attendance Tracking</li>
+    <li>Course Details</li>
+    <li>Notice Board</li>
+  </ul>
+  </div>
+</div>
+<p>
+  This project demonstrates the use of Flask ,Jhinja2, HTML,
+  and Bootstrap for building dynamic web application
+</p>
+</div>
 {% endblock %}
+    

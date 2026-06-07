@@ -1,31 +1,33 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request,redirect,url_for,flash
 
-from app1 import college
 app = Flask(__name__)
+
+app.secret_key = 'akshara_123'  # Flash sathi imp aahe
+
 students=[
-    {"name": "samiksha patil",  
+    {"name": "Samiksha patil",  
      "course": "Computer Engineering",
      "attendance": 85,
      "marks": 90
     },
 
-    {"name": "anjali shinde",
+    {"name": "Anjali shinde",
      "course": "Mechanical Engineering", 
     "attendance": 90, 
     "marks": 85
     },
 
-    {"name": "shivani kadam",
+    {"name": "Shivani kadam",
     "course": "Electronics and Telecommunication Engineering", 
     "attendance": 75,
     "marks": 70
     },
-    {"name": "sakshi kadam",
+    {"name": "Sakshi kadam",
     "course": "Computer Engineering", 
     "attendance": 80,
     "marks": 85
     },
-    {"name": "sanika gudup",
+    {"name": "Sanika gudup",
     "course": "Mechanical Engineering", 
     "attendance": 70, 
     "marks": 75
@@ -34,9 +36,9 @@ students=[
 ]
 
 notice_board= {
-    "notice1": "Python internship started from 28 may 2026",
-    "notice2": "Python internship will be organized by LinKkiwi pvt ltd ",
-    "notice3": "Python internship  daily 2 hours from 10 am to 12 pm. "
+    "Notice1": "Python internship started from 28 may 2026",
+    "Notice2": "Python internship will be organized by Linkkiwi pvt ltd ",
+    "Notice3": "Python internship  daily 2 hours from 10 am to 12 pm. "
     }
 
 @app.route("/")
@@ -56,5 +58,39 @@ def records():
 def notices():
     return render_template("notice.html",notices=notice_board)
 
-if __name__ =="__main__":
+
+
+
+
+
+@app.route("/add_students", methods=["GET", "POST"])
+def add_student():
+    if request.method == 'POST':
+        # Data receive karo
+        name = request.form.get('name')
+        course = request.form.get('course')
+        attendance = request.form.get('attendance')
+        marks = request.form.get('marks')
+        
+        # Validation - empty check
+        if not name or not course or not attendance or not marks:
+            flash('❌ All fields are required!', 'danger')
+            return redirect(url_for('add_student'))
+        
+        # Data save karo
+        student= {
+            'name':name,
+            'course':course,
+            'attendance': attendance,
+            'marks': marks
+        }
+        students.append(student)
+        
+        # Flash message + redirect
+        flash('✅ Student added successfully!', 'success')
+        return redirect(url_for('records'))
+    
+    return render_template('add_students.html')
+
+if __name__ == '__main__':
     app.run(debug=True)

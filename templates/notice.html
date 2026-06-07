@@ -1,10 +1,12 @@
+
 {% extends "base.html" %}
 {% block content %}
-<h2>NOTICE BOARD</h2>
+<div class="card p-4">
+<h4 class="mb-4">📢 NOTICE BOARD</h4>
 {% for key,value in notices.items() %}
-<p>
-    {{ key }} : {{ value }}
-</p>
-<hr>
+<div class="alert alert-info">
+    <strong>{{ key | replace('notices', 'Notices ') }}:</strong> {{ value }}
+</div>
 {% endfor %}
+</div>
 {% endblock %}
