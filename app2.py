@@ -59,10 +59,6 @@ def notices():
     return render_template("notice.html",notices=notice_board)
 
 
-
-
-
-
 @app.route("/add_students", methods=["GET", "POST"])
 def add_student():
     if request.method == 'POST':
