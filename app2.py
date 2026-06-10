@@ -1,8 +1,9 @@
 from flask import Flask, render_template,request,redirect,url_for,flash
+from database import get_db
 
 app = Flask(__name__)
 
-app.secret_key = 'akshara_123'  # Flash sathi imp aahe
+app.secret_key = 'akshara_123'  
 
 students=[
     {"name": "Samiksha patil",  
@@ -52,6 +53,9 @@ def home():
 
 @app.route("/records")
 def records():
+    conn=get_db()
+    students=conn.execute('SELECT * FROM students ORDER BY NAME DESC').fetchall()
+    conn.close
     return render_template("records.html",students=students)
 
 @app.route("/notices")
@@ -62,7 +66,7 @@ def notices():
 @app.route("/add_students", methods=["GET", "POST"])
 def add_student():
     if request.method == 'POST':
-        # Data receive karo
+        
         name = request.form.get('name')
         course = request.form.get('course')
         attendance = request.form.get('attendance')
@@ -73,7 +77,16 @@ def add_student():
             flash('❌ All fields are required!', 'danger')
             return redirect(url_for('add_student'))
         
-        # Data save karo
+        conn=get_db()
+        conn.execute('''INSERT INTO students (name,course,attendance,marks) VALUES (?, ?, ?, ?)''',
+                     (name,course,attendance,marks)
+                     )
+        conn.commit()
+        conn.close()
+                     
+
+        
+        # Data save 
         student= {
             'name':name,
             'course':course,
