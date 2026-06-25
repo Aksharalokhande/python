@@ -1,53 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Filter — College Portal{% endblock %}
 
-{% extends "base.html" %}
-{% block title %}Students - College Portal{% endblock %}
 {% block content %}
-<!-- page header -->
-<div class="d-flex justify-content-between align-items-center mb-2">
-    <div>
-        <h2 class="fw-bold mb-4">Students Records</h2>
-        
-    </div>
-    
+<div class="card mb-4 shadow-sm p-3 bg-info">
+<h2 class="fw-bold mb-3">Filter Students</h2>
+<p class="text muted small mb-0">Filter students records by subject or result
+</p>
 </div>
 
-    {% set pass_students = students|selectattr('marks','ge',40)|list %}
-    {% set fail_students = students|selectattr('marks','lt',40)|list %}
-    {% set low_attendance = students|selectattr('attendance','lt',75)|list %}
-
-
-<div class="row mb-4">
-    <div class="col text-center">
-        <span class="badge bg-primary px-3 py-2 me-2">
-            👨‍🎓 Total: {{ students|length }}
-        </span>
-
-        <span class="badge bg-success px-3 py-2 me-2">
-            ✅ Pass: {{ pass_students|length }}
-        </span>
-
-        <span class="badge bg-danger px-3 py-2 me-2">
-            ❌ Fail: {{ fail_students|length }}
-        </span>
-
-        <span class="badge bg-warning text-dark px-3 py-2">
-            ⚠️ Low Attendance: {{ low_attendance|length }}
-        </span>
+<!-- Filter Form -->
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('filter_students') }}">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Subject</label>
+                    <select name="subject" class="form-select">
+                        <option value="">All Subjects</option>
+                        {% for sub in subjects %}
+                        <option value="{{ sub['subject'] }}"
+                            {% if sub['subject'] == selected_subject %} selected {% endif %}>
+                            {{ sub['subject'] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Result</label>
+                        <select name="result" class="form-select">
+                            <option value="">All Results</option>
+                            <option value="pass"
+                            {% if selected_result == 'pass' %}selected{% endif %}>
+                                Pass
+                            </option>
+                            <option value="fail"
+                            {% if selected_result == 'fail' %}selected{% endif %}>
+                                Fail
+                            </option>
+                        </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
-<!-- Live Search -->
+<!-- Active filter badges -->
+{% if selected_subject %}
 <div class="mb-3">
-    <input type="text"
-           id="searchInput"
-           class="form-control form-control-lg"
-           placeholder="🔍 Type to search students by name,roll,course...">   
-    <div id="resultInfo" class="text-muted small mt-1"></div>
+    <span class="badge bg-primary">
+        Subject: {{ selected_subject }}
+        <a href="{{ url_for('filter_students') }}" class="text-white ms-2">&times;</a>
+    </span>
 </div>
+{% endif %}
 
 
-
-<!-- table-->
 <div class="card shadow-sm">
     <div class="card-body p-0">
         {% if students|length == 0 %}
@@ -76,9 +86,7 @@
                 </thead>
                 <tbody id="tableBody">
                     {% for student in students %}
-                    <tr data-name="{{ student.name | lower}}"
-                    data-roll="{{ student.roll | lower}}"
-                    data-course="{{ student.course | lower}}">
+                    <tr data-name="{{ student.name | lower}}">
                         <td class="ps-4 text-muted">{{ loop.index }}</td>
 
                         <td>
@@ -137,40 +145,4 @@
         {% endif %}
     </div>
 </div>
-
-
-<script>
-    
-    
-    const searchInput = document.getElementById('searchInput');
-    const allRows = document.querySelectorAll('#tableBody tr');
-    const resultInfo = document.getElementById('resultInfo');
-
-    searchInput.addEventListener('keyup', function() {
-    const query = this.value.toLowerCase();
-    let matchCount = 0;
-    allRows.forEach(function(row) {
-        const name = row.dataset.name || '';
-        const roll = row.dataset.roll || '';
-        const course = row.dataset.course || '';
-
-
-        if(name.includes(query) || roll.includes(query) || course.includes(query)){
-            row.style.display = '';
-            matchCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    if (matchCount === 0){
-        resultInfo.textContent = "NO students found";
-    }
-    else{
-        resultInfo.textContent = matchCount + "students(s) found";
-    }
-});
-
-
-</script>
-
 {% endblock %}

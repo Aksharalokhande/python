@@ -13,13 +13,31 @@ def init_db():
     """Create Table"""
     conn=get_db()
     conn.execute('''CREATE TABLE IF NOT EXISTS students(
-                
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                  name TEXT NOT NULL,
+                 roll INTEGER NOT NULL,
                  course TEXT NOT NULL,
-                 attendance INTEGER DEFAULT 0,
-                 marks INTEGER NOT NULL)
+                 subject TEXT NOT NULL,
+                 marks INTEGER NOT NULL,
+                 attendance INTEGER DEFAULT 0
+                 )
                  '''
     )
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS users(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 username TEXT NOT NULL UNIQUE,
+                 password TEXT NOT NULL
+
+                 )
+                 '''
+    )
+    try:
+        conn.execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'student'")
+    except Exception:
+        pass
+
+
     conn.commit()
     conn.close()
 if __name__ == "__main__":

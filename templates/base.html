@@ -34,15 +34,31 @@
 
     
     <form  class="d-flex mx-auto" action="{{ url_for('search_student')}}"method="GET">
-        <input type="text" name="search" class="form-control me-2" placeholder="Search">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search">
         <button  class="btn btn-secondary " type="search">search</button>
     
     </form>
+      {% if session.username %}
+        <span class="nav-link px-2 py-1 text-white">{{ session.username }}</span>
+        <a class="nav-link px-2 py-1" href="{{ url_for('logout')}}">
+        Logout
+        </a>
+      {% else %}
+        <a class="nav-link px-2 py-1" href="{{ url_for('login')}}"> Login</a>
+      {% endif %} 
+
+
+
+    
     
         <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/about">About</a>
         <a class="nav-link" href="/records">Records</a>
         <a class="nav-link" href="/notices">Notices</a>
+        {% if session.role == 'admin' %}
         <a class="nav-link" href="/add_students">Add_students</a>
+        {% endif %}
+        <a class="nav-link" href="/filter">filter</a>
       
     </div>
   </nav>

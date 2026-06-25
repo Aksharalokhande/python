@@ -13,8 +13,6 @@ def students():
     return '<h1> Students List</h1><p>All students will show here.</p>'
 
 
-
-
 if __name__ =='__main__':
     app.run(debug=True)
     

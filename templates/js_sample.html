@@ -1,0 +1,21 @@
+
+
+
+
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const allRows = document.querySelectorAll('#tablebody tr');
+
+    searchInput.addEventListener('keyup', function(){
+        const query =this.value.toLowerCase();
+        allRows.forEach(function(row){
+            const name= row.dataset.name;
+            if(name.includes(query)){
+                row.style.display='';
+
+            }else:
+        
+        })
+    })
+</script>

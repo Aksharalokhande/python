@@ -1,0 +1,235 @@
+
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    
+    <h2 class="text-center mb-4">
+        📊 Student Records 
+        <span class="badge bg-primary">{{ students|length }}
+
+        </span>
+    </h2>
+
+    <div class="card p-3 shadow">
+        <!--<table class="table table-bordered table-striped table-hover"> -->
+
+            <table class="table table-bordered">
+
+            <thead class="table-primary">
+                <tr>
+                    <th>Id</th>
+                    <th>👤 Name</th>
+                    <th> Roll Number</th>
+                    
+                    <th>📚 Course</th>
+                    <th>👤 Subject</th>
+                    <th>✅ Attendance</th>
+                    <th>📝 Marks</th>
+                    <th>Action</th>
+                    <th>Grade</th>
+                    <th>Performance</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.roll }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.subject }}</td>
+                    <td>{{ student.attendance }}</td>
+                    <td>{{ student.marks }}</td>
+                    <td>{{ student.grade }}</td>
+                    <td>{{ student.performance }}</td>
+                    <td>
+                        <a href="{{ url_for('student_detail',id=student.id)}}"class="btn btn-sm btn-primary">View</a>
+                        <a href="{{ url_for('edit_student',id=student.id)}}"class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ url_for('delete_student',id=student.id)}}"class="btn btn-sm btn-danger">Delete</a>
+
+                    </td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+<!--{% extends "base.html" %}
+{% block title %}Students - College Portal{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">All Students</h2>
+        <p class="text-muted mb-0">Complete student records and performance</p>
+    </div>
+    <span class="badge fs-6 px-3 py-2" style="background-color: #1e3a5f;">
+        {{ students|length }} Records
+    </span>
+</div>
+
+
+<div class="row mb-4">
+    {% set excellent = students|selectattr('marks','ge',90)|list %}
+    {% set good = students|selectattr('marks','ge',75)|selectattr('marks','lt',90)|list %}
+    {% set average = students|selectattr('marks','ge',60)|selectattr('marks','lt',75)|list %}
+    {% set weak = students|selectattr('marks','lt',60)|list %}
+
+    <div class="col text-center">
+        <span class="badge bg-success px-3 py-2 me-2">🏆 Excellent: {{excellent|length}}</span>
+        <span class="badge bg-primary px-3 py-2 me-2">👍 Good: {{good|length}}</span>
+        <span class="badge bg-warning text-dark px-3 py-2 me-2">📈 Average: {{average|length}}</span>
+        <span class="badge bg-danger px-3 py-2">⚠️ Need Help: {{weak|length}}</span>
+    </div>
+</div>
+
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        {% if students|length == 0 %}
+        <div class="text-center p-5">
+            <h5 class="text-muted">Koni student add nahi jhala ajun</h5>
+            <a href="{{ url_for('add_students') }}" class="btn btn-primary mt-2">Add Student</a>
+        </div>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead style="background-color: #0b1f39; color:white;">
+                    <tr>
+                        <th class="py-3 ps-4">#</th>
+                        <th class="py-3 ps-4">Name</th>
+                        <th class="py-3 ps-4">Roll</th>
+                        <th class="py-3 ps-4">Course</th>
+                        <th class="py-3 ps-4">Subject</th>
+                        <th class="py-3 ps-4">Marks</th>
+                        <th class="py-3 ps-4">Progress</th>
+                        <th class="py-3 ps-4 text-center">Grade</th>
+                        <th class="py-3 ps-4 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="ps-4 text-muted">{{ loop.index }}</td>
+
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center me-2 text-white fw-bold"
+                                     style="width:36px;height:36px;font-size:14px;background-color: #081c36;">
+                                    {{ student.name[0] | upper }}
+                                </div>
+                                <span class="fw-bold">{{ student.name }}</span>
+                            </div>
+                        </td>
+
+                        <td class="text-muted">{{ student.roll }}</td>
+                        <td>{{ student.course }}</td>
+                        <td>{{ student.subject }}</td>
+
+                        <td>
+                            <span class="fw-bold fs-5">{{ student.marks }}</span>
+                            <span class="text-muted small">/100</span>
+                        </td>
+
+                        <td style="width:150px;">
+                            <div class="progress" style="height:8px;">
+                                <div class="progress-bar
+                                    {% if student.marks >= 90 %}bg-success
+                                    {% elif student.marks >= 75 %}bg-primary
+                                    {% elif student.marks >= 60 %}bg-warning
+                                    {% else %}bg-danger{% endif %}"
+                                    style="width: {{ student.marks|default(0) }}%;">
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            {% if student.marks >= 90 %}
+                                <span class="badge bg-success px-3 py-2">🏆 Excellent</span>
+                            {% elif student.marks >= 75 %}
+                                <span class="badge bg-primary px-3 py-2">👍 Good</span>
+                            {% elif student.marks >= 60 %}
+                                <span class="badge bg-warning text-dark px-3 py-2">📈 Average</span>
+                            {% else %}
+                                <span class="badge bg-danger px-3 py-2">⚠️ Need Help</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="{{ url_for('student_detail', id=student.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a href="{{ url_for('delete_student', id=student.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete {{student.name}}?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}-->
+
+
+{% extends "base.html"%}
+{% block content %}
+<div class="container py-3">
+<div class="text-center my-4">
+
+
+<h6 class="display-6 fw-bold" style="color: #8000006f;"><div class="text-center">Welcome🙏</h6></div></div>
+
+<p><b>{{ college.college_name }}</b></p>
+<p>City:{{ college.city }}</p>
+<p>State:{{ college.state }}</p>
+
+<p class="col-lg-7 ">
+Welcome to college smart portal. 
+This portal helps  manage student course, attendance ,marks,and notices.
+</p>
+<h5>Mission</h5>
+<P>To provide an easy and efficient platform for managing
+  college information and student records.
+</P>
+</div>
+<div class="card shadow-lg  border-1" >
+  <div class="card-body text-left">
+  <h5>📌Features:</h5>
+  <ul>
+    <li>Student Records</li>
+    <li>Attendance Tracking</li>
+    <li>Course Details</li>
+    <li>Notice Board</li>
+  </ul>
+  </div>
+</div>
+<p>
+  This project demonstrates the use of Flask ,Jhinja2, HTML,
+  and Bootstrap for building dynamic web application
+</p>
+</div>
+{% endblock %}
+    
+
+
+
+
+college = {
+        "college_name": "Government Polytechnic Hingoli",
+        "city": "Hingoli",
+        "state": "Maharashtra"
+    }
+    return render_template("home.html",college=college)
