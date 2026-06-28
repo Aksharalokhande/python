@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="card shadow-sm p-4">
+
+    <h3 class="mb-4">📢Notices</h3>
+
+    <form method="POST" action="{{ url_for('add_notice') }}">
+        <div class="input-group mb-4">
+            <input
+                type="text"
+                name="notice"
+                class="form-control"
+                placeholder="Enter Notice"
+                required>
+                <input
+                type="date"
+                name="date"
+                class="form-control"
+                
+                required>
+
+            <button class="btn btn-primary">
+                Add 
+            </button>
+        </div>
+    </form>
+
+    {% for notice in notices %}
+     <div class="alert alert-info d-flex justify-content-between align-items-center">
+
+        <span>{{ notice.notice }}</span>
+        <span>{{ notice.date }}</span>
+
+
+        <div>
+            <a href="{{ url_for('edit_notice', id=notice.id) }}"
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <!--<a href="{{ url_for('delete_notice', id=notice.id) }}"
+               class="btn btn-danger btn-sm">
+                Delete
+            </a>-->
+             <a href="{{ url_for('delete_notice', id=notice.id) }}" 
+             class="btn btn-sm btn-danger " onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

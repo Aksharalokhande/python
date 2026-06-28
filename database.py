@@ -37,6 +37,15 @@ def init_db():
     except Exception:
         pass
 
+    conn.execute('''CREATE TABLE IF NOT EXISTS notices(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                notice TEXT NOT NULL,
+                date TEXT NOT NULL
+
+                 )
+                 '''
+    )
+
 
     conn.commit()
     conn.close()

@@ -3,11 +3,21 @@
 {% block title %}Students - College Portal{% endblock %}
 {% block content %}
 <!-- page header -->
-<div class="d-flex justify-content-between align-items-center mb-2">
-    <div>
+<!--<div class="d-flex justify-content-between align-items-center mb-2">-->
+
+
+<div class="card mb-4 shadow-sm p-3"style="background:linear-gradient(135deg, #4b5366, #3a435c);">
+<h2 class="fw-bold mb-3 text-white text-center">Students Records</h2>
+<p class="text-white text-center">- Search students records by name,rollno,course...
+</p><p class="text-white text-center mb-2">- View,search,update and manage student records efficiently.
+</p>
+</div>
+
+
+    <!--<div>
         <h2 class="fw-bold mb-4">Students Records</h2>
         
-    </div>
+    </div>-->
     
 </div>
 
@@ -21,6 +31,8 @@
         <span class="badge bg-primary px-3 py-2 me-2">
             👨‍🎓 Total: {{ students|length }}
         </span>
+    
+ 
 
         <span class="badge bg-success px-3 py-2 me-2">
             ✅ Pass: {{ pass_students|length }}

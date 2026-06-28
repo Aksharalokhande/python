@@ -8,42 +8,6 @@ app = Flask(__name__)
 app.secret_key = 'akshara_123'  
 #app.secret_key = secrets.token_hex(16)
 
-students=[
-    {"name": "Samiksha patil",  
-     "course": "Computer Engineering",
-     "attendance": 85,
-     "marks": 90
-    },
-
-    {"name": "Anjali shinde",
-     "course": "Mechanical Engineering", 
-    "attendance": 90, 
-    "marks": 85
-    },
-
-    {"name": "Shivani kadam",
-    "course": "Electronics and Telecommunication Engineering", 
-    "attendance": 75,
-    "marks": 70
-    },
-    {"name": "Sakshi kadam",
-    "course": "Computer Engineering", 
-    "attendance": 80,
-    "marks": 85
-    },
-    {"name": "Sanika gudup",
-    "course": "Mechanical Engineering", 
-    "attendance": 70, 
-    "marks": 75
-    }
-     
-]
-
-notice_board= {
-    "Notice1": "Python internship started from 28 may 2026",
-    "Notice2": "Python internship will be organized by Linkkiwi pvt ltd ",
-    "Notice3": "Python internship  daily 2 hours from 10 am to 12 pm. "
-    }
 
 @app.route("/")
 def home():
@@ -124,7 +88,7 @@ def login():
         if user and check_password_hash(user['password'],password):
             session['username'] = username
             session['role'] = user['role']
-            flash(f'welcome{username}!','success')
+            flash(f'welcome {username}!','success')
             return redirect(url_for('home'))
         else:
 
@@ -187,10 +151,6 @@ def records():
     students=conn.execute('SELECT * FROM students ORDER BY NAME DESC').fetchall()
     conn.close()
     return render_template("records.html",students=students)
-
-@app.route("/notices")
-def notices():
-    return render_template("notice.html",notices=notice_board)
 
 
 @app.route("/add_students", methods=["GET", "POST"])
@@ -318,6 +278,91 @@ def filter_students():
     conn.close()
 
     return render_template('filter.html',students=students,selected_subject=subject, subjects=subjects,selected_result=selected_result)
+
+
+
+#  Notice Page
+@app.route("/notices")
+def notices():
+    conn = get_db()
+    notices = conn.execute(
+        "SELECT * FROM notices ORDER BY id DESC"
+    ).fetchall()
+    conn.close()
+
+    return render_template(
+        "notices.html",
+        notices=notices
+    )
+
+
+
+
+# Add Notice
+@app.route("/add_notice", methods=["POST"])
+def add_notice():
+    notice = request.form["notice"]
+    date = request.form["date"]
+
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO notices(notice,date) VALUES(?,?)",
+        (notice,date)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("notices"))
+
+
+# Delete Notice
+@app.route("/delete_notice/<int:id>")
+def delete_notice(id):
+
+    conn = get_db()
+    conn.execute(
+        "DELETE FROM notices WHERE id=?",
+        (id,)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("notices"))
+
+
+# Edit Notice
+@app.route("/edit_notice/<int:id>", methods=["GET", "POST"])
+def edit_notice(id):
+
+    conn = get_db()
+
+    if request.method == "POST":
+
+        notice = request.form["notice"]
+        date = request.form["date"]
+
+        conn.execute(
+            "UPDATE notices SET notice=?, date=? WHERE id=?",
+            (notice,date, id)
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for("notices"))
+
+    notice = conn.execute(
+        "SELECT * FROM notices WHERE id=?",
+        (id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template(
+        "edit_notice.html",
+        notice=notice
+    )
+
 
 
 
