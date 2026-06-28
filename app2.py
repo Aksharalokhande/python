@@ -318,6 +318,9 @@ def add_notice():
 # Delete Notice
 @app.route("/delete_notice/<int:id>")
 def delete_notice(id):
+    if session.get('role') !='admin':
+        flash("Admins only! You do not have permission","danger")
+        return redirect(url_for('home'))
 
     conn = get_db()
     conn.execute(
@@ -333,6 +336,9 @@ def delete_notice(id):
 # Edit Notice
 @app.route("/edit_notice/<int:id>", methods=["GET", "POST"])
 def edit_notice(id):
+    if session.get('role') !='admin':
+        flash("Admins only! You do not have permission","danger")
+        return redirect(url_for('home'))
 
     conn = get_db()
 
