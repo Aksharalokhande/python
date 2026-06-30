@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">
+                <i class="fas fa-chalkboard-teacher me-2"></i>
+                Add Faculty
+            </h3>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Faculty ID</label>
+                        <input type="text" class="form-control" name="faculty_id" placeholder="Enter Faculty ID" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Faculty Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Faculty Name" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter Email" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Phone Number</label>
+                        <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Course</label>
+                        <input type="text" class="form-control" name="course" placeholder="Enter Course" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Subject</label>
+                        <input type="text" class="form-control" name="subject" placeholder="Enter Subject" required>
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label fw-bold">Designation</label>
+                        <input type="text" class="form-control" name="designation" placeholder="Assistant Professor / HOD / Lecturer" required>
+                    </div>
+
+                </div>
+
+                <div class="text-center">
+
+                    <button type="submit" class="btn btn-success px-4">
+                         Add Faculty
+                    </button>
+
+                    <a href="{{ url_for('faculty') }}" class="btn btn-secondary px-4 ms-2">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

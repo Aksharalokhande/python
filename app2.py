@@ -145,7 +145,7 @@ def student_detail(id):
     conn.close()
     if students is None:
         flash("Student not found ","danger")
-        return redirect(url_for("students"))
+        return redirect(url_for("records"))
     return render_template("detail.html",students=students)
 
 
@@ -374,6 +374,39 @@ def edit_notice(id):
         notice=notice
     )
 
+@app.route('/faculty')
+def faculty():
+    conn = get_db()
+    faculty = conn.execute("SELECT * FROM faculty").fetchall()
+    conn.close()
+    return render_template("faculty.html", faculty=faculty)
+
+@app.route('/faculty/add', methods=['GET', 'POST'])
+def add_faculty():
+    if request.method == 'POST':
+        faculty_id = request.form['faculty_id']
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        course = request.form['course']
+        subject = request.form['subject']
+        designation = request.form['designation']
+
+        conn = get_db()
+
+        conn.execute("""
+            INSERT INTO faculty
+            (faculty_id, name, email, phone, course, subject, designation)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (faculty_id, name, email, phone, course, subject, designation))
+
+        conn.commit()
+        conn.close()
+
+        flash("Faculty added successfully!", "success")
+        return redirect(url_for('faculty'))
+
+    return render_template("add_faculty.html")
 
 
 

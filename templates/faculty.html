@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Faculty Management</h2>
+
+        <a href="{{ url_for('add_faculty') }}" class="btn btn-primary">
+            + Add Faculty
+        </a>
+    </div>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Faculty ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Designation</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for f in faculty %}
+            <tr>
+                <td>{{ f['faculty_id'] }}</td>
+                <td>{{ f['name'] }}</td>
+                <td>{{ f['email'] }}</td>
+                <td>{{ f['phone'] }}</td>
+                <td>{{ f['course'] }}</td>
+                <td>{{ f['subject'] }}</td>
+                <td>{{ f['designation'] }}</td>
+
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

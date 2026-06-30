@@ -45,11 +45,24 @@ def init_db():
                  )
                  '''
     )
+    conn.execute('''CREATE TABLE IF NOT EXISTS faculty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    faculty_id TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    phone TEXT,
+    course TEXT,
+    subject TEXT,
+    designation TEXT 
+                )'''
+    )
+
 
     
 
     conn.commit()
     conn.close()
+    
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
