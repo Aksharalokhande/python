@@ -409,7 +409,7 @@ def add_faculty():
     return render_template("add_faculty.html")
 
 
-
+init_db()
 if __name__ == '__main__':
-    init_db()
+
     app.run(debug=True)
