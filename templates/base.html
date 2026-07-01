@@ -26,44 +26,63 @@
 </head>
 <body>
   <!-- Navbar - College color -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top shadow">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="/">🎓 Smart Portal</a>
-      <!--<div class="navbar-nav ms-auto">-->
+  
 
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+  <div class="container">
 
-    
-    <form  class="d-flex mx-auto" action="{{ url_for('search_student')}}"method="GET">
-        <input type="text" name="q" class="form-control me-2" placeholder="Search">
-        <button  class="btn btn-outline-light " type="search">search</button>
-    
-    </form>
-      {% if session.username %}
-        <span class="nav-link px-2 py-1 text-white">{{ session.username }}</span>
-        <a class="nav-link px-2 py-1" href="{{ url_for('logout')}}">
-        Logout
-        </a>
-      {% else %}
-        <a class="nav-link px-2 py-1" href="{{ url_for('login')}}"> Login</a>
-      {% endif %} 
+    <a class="navbar-brand fw-bold" href="/">🎓 Smart Portal</a>
 
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarNav">
 
-    
-    
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/about">About</a>
-        <a class="nav-link" href="/contact">contact</a>
-        <a class="nav-link" href="/records">Records</a>
-        <a class="nav-link" href="/notices">Notices</a>
-       
-        {% if session.role == 'admin' %}
-        <a class="nav-link" href="/add_student">Add_students</a>
+      <form class="d-flex mx-lg-auto my-2 my-lg-0"
+            action="{{ url_for('search_student') }}"
+            method="GET">
+        <input class="form-control me-2" type="text" name="q" placeholder="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+
+      <ul class="navbar-nav ms-auto">
+
+        {% if session.username %}
+        <li class="nav-item">
+          <span class="nav-link">{{ session.username }}</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        </li>
         {% endif %}
-        <a class="nav-link" href="/filter">Filter</a>
-      
+
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/records">Records</a></li>
+        <li class="nav-item"><a class="nav-link" href="/notices">Notices</a></li>
+
+        {% if session.role == 'admin' %}
+        <li class="nav-item">
+          <a class="nav-link" href="/add_students">Add Student</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item"><a class="nav-link" href="/filter">Filter</a></li>
+
+      </ul>
+
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <main class="container my-4">
   <!-- Flash messages -->
