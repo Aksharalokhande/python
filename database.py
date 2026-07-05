@@ -1,11 +1,16 @@
+import os
 import sqlite3
 from flask import Flask,render_template,redirect,request,url_for,flash
 app=Flask(__name__)
 app.secret_key="akshara123"
 
+BASE_DTR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DTR, 'college.db')
+
+
 def get_db():
    """database connection"""
-   conn=sqlite3.connect('college.db')
+   conn=sqlite3.connect(DB_PATH)
    conn.row_factory= sqlite3.Row
    return conn
 
