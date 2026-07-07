@@ -41,7 +41,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-      <form class="d-flex mx-lg-auto my-2 my-lg-0"
+      <form class="d-flex ms-auto me-0 my-2 my-lg-0"
             action="{{ url_for('search_student') }}"
             method="GET">
         <input class="form-control me-2" type="text" name="q" placeholder="Search">
@@ -63,20 +63,20 @@
         </li>
         {% endif %}
 
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" href="/records">Records</a></li>
-        <li class="nav-item"><a class="nav-link" href="/notices">Notices</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">🏠Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">ℹ️ About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">📞Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/records">🧾Records</a></li>
+        <li class="nav-item"><a class="nav-link" href="/notices">📢Notices</a></li>
 
         {% if session.role == 'admin' %}
         <li class="nav-item">
-          <a class="nav-link" href="/add_students">Add Student</a>
+          <a class="nav-link" href="/add_students">➕ Add Student</a>
         </li>
         {% endif %}
 
-        <li class="nav-item"><a class="nav-link" href="/filter">Filter</a></li>
-        <li class="nav-item"><a class="nav-link" href="/faculty">faculty</a></li>
+        <li class="nav-item"><a class="nav-link" href="/filter">🔍Filter</a></li>
+        <li class="nav-item"><a class="nav-link" href="/faculty">👨‍🏫Faculty</a></li>
       </ul>
 
     </div>
