@@ -409,6 +409,57 @@ def add_faculty():
     return render_template("add_faculty.html")
 
 
+@app.route('/faculty/view/<faculty_id>')
+def view_faculty(faculty_id):
+    conn = get_db()
+    faculty = conn.execute("SELECT * FROM faculty WHERE faculty_id = ?",(faculty_id,)).fetchone()
+   
+    conn.close()
+    return render_template("view_faculty.html", faculty=faculty)
+
+@app.route('/faculty/edit/<faculty_id>', methods=['GET', 'POST'])
+def edit_faculty(faculty_id):
+    conn = get_db()
+
+    if request.method == 'POST':
+        conn.execute("""
+            UPDATE faculty
+            SET name=?, email=?, phone=?, course=?, subject=?, designation=?
+            WHERE faculty_id=?
+        """, (
+            request.form['name'],
+            request.form['email'],
+            request.form['phone'],
+            request.form['course'],
+            request.form['subject'],
+            request.form['designation'],
+            faculty_id
+        ))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('faculty'))
+
+    faculty = conn.execute(
+        "SELECT * FROM faculty WHERE faculty_id=?",
+        (faculty_id,)
+    ).fetchone()
+    conn.close()
+
+    return render_template("edit_faculty.html", faculty=faculty)
+
+@app.route('/faculty/delete/<faculty_id>')
+def delete_faculty(faculty_id):
+    conn = get_db()
+    conn.execute(
+        "DELETE FROM faculty WHERE faculty_id=?",
+        (faculty_id,)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('faculty'))
+
+
 init_db()
 if __name__ == '__main__':
 

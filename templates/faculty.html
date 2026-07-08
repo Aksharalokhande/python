@@ -10,10 +10,11 @@
         <a href="{{ url_for('add_faculty') }}" class="btn btn-primary">
             + Add Faculty
         </a>
+
     </div>
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center align-middle">
-        <thead class="table-dark">
+       
             <tr>
                 <th>Faculty ID</th>
                 <th>Name</th>
@@ -29,13 +30,27 @@
         <tbody>
             {% for f in faculty %}
             <tr>
-                <td>{{ f['faculty_id'] }}</td>
+                <td>{{ f['id'] }}</td>
                 <td>{{ f['name'] }}</td>
                 <td>{{ f['email'] }}</td>
                 <td>{{ f['phone'] }}</td>
                 <td>{{ f['course'] }}</td>
                 <td>{{ f['subject'] }}</td>
                 <td>{{ f['designation'] }}</td>
+                <td>
+                    <a href="{{ url_for('view_faculty',faculty_id=f['faculty_id']) }}" class="btn btn-info">
+                        View
+                    </a>
+
+                    <a href="{{ url_for('edit_faculty',faculty_id=f['faculty_id']) }}" class="btn btn-warning">
+                        Edit
+                    </a>
+
+                    <a href="{{ url_for('delete_faculty', faculty_id=f['faculty_id']) }}" class="btn btn-danger"
+                         onclick="return confirm('Are you sure you want to delete?')">
+                        Delete
+                    </a>
+                </td>
 
                 
             </tr>

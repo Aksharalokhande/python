@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!--<div class="container mt-4">-->
+<div class="row justify-content-center">
+<div class="col-md-6">
+    <div class="card shadow">
+        
+        <div class="card-header bg-primary">
+            <h3>Edit Faculty</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Faculty Name</label>
+                    <input type="text" name="name" class="form-control"
+                           value="{{ faculty['name'] }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                           value="{{ faculty['email'] }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control"
+                           value="{{ faculty['phone'] }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Course</label>
+                    <input type="text" name="course" class="form-control"
+                           value="{{ faculty['course'] }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control"
+                           value="{{ faculty['subject'] }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Designation</label>
+                    <input type="text" name="designation" class="form-control"
+                           value="{{ faculty['designation'] }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    Update Faculty
+                </button>
+
+                <a href="{{ url_for('faculty') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+        
+    </div>
+
+</div>
+</div>
+
+{% endblock %}
