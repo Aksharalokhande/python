@@ -1,12 +1,20 @@
+from http import client
+from click import prompt
 from flask import Flask, render_template,request,redirect,url_for,flash,session
+from flask.cli import load_dotenv
 from database import get_db,init_db
+from groq import Groq
+import os
 from werkzeug.security import generate_password_hash,check_password_hash
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 app = Flask(__name__)
 
 
 app.secret_key = 'akshara_123'  
-#app.secret_key = secrets.token_hex(16)
+
 
 
 @app.route("/")
@@ -141,12 +149,12 @@ def delete_student(id):
 @app.route('/students/<int:id>')
 def student_detail(id):
     conn=get_db()
-    students=conn.execute('SELECT*FROM students WHERE id=?',(id,)).fetchone()
+    student = conn.execute('SELECT*FROM students WHERE id=?',(id,)).fetchone()
     conn.close()
-    if students is None:
+    if student is None:
         flash("Student not found ","danger")
         return redirect(url_for("records"))
-    return render_template("detail.html",students=students)
+    return render_template("detail.html",student=student)
 
 
 
@@ -156,6 +164,31 @@ def records():
     students=conn.execute('SELECT * FROM students ORDER BY NAME DESC').fetchall()
     conn.close()
     return render_template("records.html",students=students)
+
+
+@app.route("/students/<int:id>/tip")
+def get_ai_tip(id):
+    conn = get_db()
+    student = conn.execute('SELECT * FROM students WHERE id = ?', (id,)).fetchone()
+    conn.close()
+    if student is None:
+        os.abort(404)  # trigger 404.html
+    prompt = f"""
+    Student name: {student['name']}
+    Subject: {student['subject']}
+    Marks: {student['marks']}/100
+    Attendance: {student['attendance']}%
+    Please provide practical study tips, In simple and encouraging tone. It should not be more than 2 lines.
+    """
+    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    response = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    tip = response.choices[0].message.content
+    return render_template("detail.html", student=student, tip=tip)
 
 
 @app.route("/add_students", methods=["GET", "POST"])
@@ -383,6 +416,11 @@ def faculty():
 
 @app.route('/faculty/add', methods=['GET', 'POST'])
 def add_faculty():
+
+    if session.get('role') !='admin':
+        flash("Admins only! You do not have permission","danger")
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         faculty_id = request.form['faculty_id']
         name = request.form['name']
@@ -419,6 +457,11 @@ def view_faculty(faculty_id):
 
 @app.route('/faculty/edit/<faculty_id>', methods=['GET', 'POST'])
 def edit_faculty(faculty_id):
+
+    if session.get('role') !='admin':
+        flash("Admins only! You do not have permission","danger")
+        return redirect(url_for('home'))
+
     conn = get_db()
 
     if request.method == 'POST':
@@ -449,6 +492,11 @@ def edit_faculty(faculty_id):
 
 @app.route('/faculty/delete/<faculty_id>')
 def delete_faculty(faculty_id):
+
+    if session.get('role') !='admin':
+        flash("Admins only! You do not have permission","danger")
+        return redirect(url_for('home'))
+
     conn = get_db()
     conn.execute(
         "DELETE FROM faculty WHERE faculty_id=?",
@@ -458,6 +506,10 @@ def delete_faculty(faculty_id):
     conn.close()
 
     return redirect(url_for('faculty'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 
 init_db()

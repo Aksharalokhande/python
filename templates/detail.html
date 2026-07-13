@@ -13,43 +13,43 @@
                 <div class="avtar rounded-circle bg-secondary text-white
                 d-inline-flex align-items-center justify-content-center"
                 style="width: 80px; height: 80px; font-size: 30px;">
-                {{students['name'][0]|upper }}
+                {{student['name'][0]|upper }}
                 </div>
 
-         <h3 class="fw-bold">{{ students['name'] }}</h3>
+         <h3 class="fw-bold">{{ student['name'] }}</h3>
         </div>
         <!--details -->
         <table class="table table-borderless">
             <tr>
                 <th class="text-muted fw-bold"> Name:</th>
-                <td>{{ students['name']}}</td>
+                <td>{{ student['name']}}</td>
             </tr>
             <tr>
                 <th class="text-muted fw-bold">Course:</th>
-                <td>{{ students['course']}}</td>
+                <td>{{ student['course']}}
             </tr>
             <tr>
                 <th class="text-muted fw-bold">Subject:</th>
-                <td>{{ students['subject']}}</td>
+                <td>{{ student['subject']}}</td>
             </tr>
             <tr>
                 <th class="text-muted fw-bold">Attendance:</th>
-                <td>{{ students['attendance']}}</td>
+                <td>{{ student['attendance']}}</td>
             </tr>
             <tr>
                 <td class="text-muted fw-bold">Marks</td>
-                <td>{{ students['marks']}}
+                <td>{{ student['marks']}}
                 
                 <!-- progressbar -->
                  <div  class="progress mt-2"style="height:8px;">
                     <div class ="progress-bar
 
 
-                    {% if students['marks'] >=85 %}bg-success
-                    {% elif students['marks'] >=75 %}bg-primary
-                    {% elif students['marks'] >=60 %}bg-warning
+                    {% if student['marks'] >=85 %}bg-success
+                    {% elif student['marks'] >=75 %}bg-primary
+                    {% elif student['marks'] >=60 %}bg-warning
                     {% else %}bg-danger{% endif %}"
-                    style="width : {{ students['marks']}}%;">
+                    style="width : {{ student['marks']}}%;">
                     </div>
                  </div>
                 </td>
@@ -57,15 +57,26 @@
             
             </table>
          </div>
-         <div class="text-center mb-2">
-            <a href="{{url_for('records')}}" class="btn btn-outline-primary">
-            Back to records
-            </a>
-        </div>
+
+          <!-- AI Tips section -->
+                <div class="mb-3">
+                        <h5 class="fw-bold">AI Study Tips:</h5>
+                        {% if tip %}
+                        <div class ="alert alert-info">{{ tip }}</div>
+                        {% else %}
+                        <a href="{{url_for('get_ai_tip', id=student['id'])}}" class="btn btn-primary ms-3">Get AI Study Tips</a>
+                        {% endif %}
+                </div>
+                <div class="text-center mb-2">
+                            <a href="{{url_for('records')}}" class="btn btn-outline-primary">
+                            Back to records
+                            </a>
+                </div>
+
+
     </div>
+
 </div>
 
     
-
-
 {% endblock %}
