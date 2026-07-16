@@ -6,21 +6,16 @@
 
      style="background: linear-gradient(135deg, #150828 0%, #102331 50%, #1b3a4b 100%); color: white;">
     <div class="card-body p-5 text-center">
-        <!--<h1 class="display-4 fw-bold mb-3">Welcome🙏</h1>
-        
-        <p class="lead mb-3 fw-bold ">Government Polytechnic Hingoli</p>-->
-         <h3 class="display-4 fw-bold mb-3">Government Polytechnic Hingoli</h3>
+      
+        <h3 class="display-4 fw-bold mb-3">Government Polytechnic Hingoli</h3>
         <p class="lead mb-2">✔️Student Records Management</p>
         <p class="lead mb-2">✔️Academic Performance Tracking</p>
         <p class="lead mb-2">✔️Attendance Monitoring</p>
         <a href="{{ url_for('records') }}" class="btn btn-light btn-lg rounded-pill px-3 shadow">
-            Get Started →
+            View Records →
         </a>
     </div>
 </div>
-
-
-
 
 
 <div class="container py-2">
@@ -33,7 +28,7 @@
 
         <div class="col-md-4 mb-3">
             <div class="card text-center shadow-lg rounded-4"
-            style="background:linear-gradient(135deg,#e6b3c9,#be7699);">
+            style="background:linear-gradient(135deg,#f0dde6,#f2c9dd);">
                 <div class="card-body">
                     <h5>👨‍🎓 Students</h5>
                     <h2>{{ total_students }}</h2>
@@ -43,7 +38,7 @@
 
         <div class="col-md-4 mb-3">
             <div class="card text-center shadow-lg rounded-4"
-            style="background:linear-gradient(135deg,hsla(209, 76%, 76%, 0.889),#fb7b45);">
+            style="background:linear-gradient(135deg,hsla(45, 29%, 77%, 0.889),#e7c4b5);">
                 <div class="card-body">
                     <h5>📊 Average Marks</h5>
                     <h2>{{ avg_marks }}</h2>
@@ -53,7 +48,7 @@
 
         <div class="col-md-4 mb-3">
             <div class="card text-center shadow-lg rounded-4"
-            style="background:linear-gradient(135deg,#eff3b0,#afe320);">
+            style="background:linear-gradient(135deg,#d3ebef,#9de8d3);">
                 <div class="card-body">
                     <h5>✅ Attendance</h5>
                     <h2>{{ avg_attendance }}%</h2>
