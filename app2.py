@@ -51,6 +51,10 @@ def home():
         "SELECT * FROM students ORDER BY marks DESC LIMIT 5"
     ).fetchall()
 
+    total_faculty = conn.execute(
+        "SELECT COUNT(*) FROM faculty"
+    ).fetchone()[0]
+
 
     
 
@@ -59,7 +63,15 @@ def home():
         total_students=total_students,
         avg_marks=round(avg_marks or 0, 2),
         avg_attendance=round(avg_attendance or 0, 2),
-        top_students=top_students, )
+        top_students=top_students,
+        total_faculty=total_faculty,
+        add_student=url_for('add_student'),
+     
+        
+        notices=url_for('notices'),
+       
+        faculty=url_for('faculty')
+    )
 
 
 @app.route("/about")
@@ -223,10 +235,16 @@ def add_student():
         if not name or not roll or not course or not  subject or not attendance or not marks:
             flash('❌ All fields are required!', 'danger')
             return redirect(url_for('add_student'))
+        #add : handle photo upload
+        file = request.files.get('photo')
+        filename = 'default.png'
+        if file and file.filename and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         
         conn=get_db()
-        conn.execute('''INSERT INTO students (name,roll,course,subject,attendance,marks) VALUES (?, ?, ?, ?, ?, ?)''',
-                     (name,roll,course,subject,attendance,marks)
+        conn.execute('''INSERT INTO students (name,roll,course,subject,attendance,marks,photo) VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                     (name,roll,course,subject,attendance,marks,filename)
                      )
         conn.commit()
         conn.close()

@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block title %}Students - College Portal{% endblock %}
 {% block content %}
@@ -6,21 +5,22 @@
 
 
 
-<div class="card mb-4 shadow-sm p-3"style="background:linear-gradient(135deg, #4b5366, #3a435c);">
-<h2 class="fw-bold mb-3 text-white text-center">Students Records</h2>
-<p class="text-white text-center">- Search students records by name,rollno,course...
-</p><p class="text-white text-center mb-2">- View,search,update and manage student records efficiently.
-</p>
+<div class="card mb-4 shadow-sm p-3" style="background:linear-gradient(135deg, #4b5366, #3a435c);">
+    <h2 class="fw-bold mb-3 text-white text-center">Students Records</h2>
+    <p class="text-white text-center">- Search students records by name,rollno,course...
+    </p>
+    <p class="text-white text-center mb-2">- View,search,update and manage student records efficiently.
+    </p>
 </div>
 
 
-    
-    
+
+
 </div>
 
-    {% set pass_students = students|selectattr('marks','ge',40)|list %}
-    {% set fail_students = students|selectattr('marks','lt',40)|list %}
-    {% set low_attendance = students|selectattr('attendance','lt',75)|list %}
+{% set pass_students = students|selectattr('marks','ge',40)|list %}
+{% set fail_students = students|selectattr('marks','lt',40)|list %}
+{% set low_attendance = students|selectattr('attendance','lt',75)|list %}
 
 
 <div class="row mb-4">
@@ -28,8 +28,8 @@
         <span class="badge bg-primary px-3 py-2 me-2">
             👨‍🎓 Total: {{ students|length }}
         </span>
-    
- 
+
+
 
         <span class="badge bg-success px-3 py-2 me-2">
             ✅ Pass: {{ pass_students|length }}
@@ -47,10 +47,8 @@
 
 <!-- Live Search -->
 <div class="mb-3">
-    <input type="text"
-           id="searchInput"
-           class="form-control form-control-lg"
-           placeholder="🔍 Type to search students by name,roll,course...">   
+    <input type="text" id="searchInput" class="form-control form-control-lg"
+        placeholder="🔍 Type to search students by name,roll,course...">
     <div id="resultInfo" class="text-muted small mt-1"></div>
 </div>
 
@@ -66,9 +64,9 @@
         </div>
         {% else %}
         <div class="table-responsive">
-            
-                <table class="table table-bordered table-hover">
-  
+
+            <table class="table table-bordered table-hover">
+
 
                 <thead style="background-color: #0b1f39; color:white;">
                     <tr>
@@ -85,14 +83,13 @@
                 </thead>
                 <tbody id="tableBody">
                     {% for student in students %}
-                    <tr data-name="{{ student.name | lower}}"
-                    data-roll="{{ student.roll | lower}}"
-                    data-course="{{ student.course | lower}}">
+                    <tr data-name="{{ student.name | lower}}" data-roll="{{ student.roll | lower}}"
+                        data-course="{{ student.course | lower}}">
                         <td class="ps-4 text-muted">{{ loop.index }}</td>
 
                         <td>
                             <div class="d-flex align-items-center">
-                                
+
                                 <span class="fw-bold">{{ student.name }}</span>
                             </div>
                         </td>
@@ -106,36 +103,40 @@
                             <span class="text-muted small">/100</span>
                         </td>
 
-                        
+
                         <td class="text-center">
                             {% if student.marks >= 40 %}
-                                <span class="badge bg-success px-3 py-2">Pass</span>
+                            <span class="badge bg-success px-3 py-2">Pass</span>
                             {% else %}
-                                <span class="badge bg-danger px-3 py-2">Fail</span>
+                            <span class="badge bg-danger px-3 py-2">Fail</span>
                             {% endif %}
                         </td>
-
-                        
-                        <td class="text-center">
-                            {% if student.attendance >= 75 %}
-                                <span class="badge bg-success px-3 py-2">
-                                    {{ student.attendance }}%
-                                </span>
-                            {% else %}
-                                <span class="badge bg-danger px-3 py-2">
-                                    {{ student.attendance }}%
-                                </span>
-                            {% endif %}
-                        </td>
-
 
 
                         <td class="text-center">
+                            {% if student.attendance >= 75 %}
+                            <span class="badge bg-success px-3 py-2">
+                                {{ student.attendance }}%
+                            </span>
+                            {% else %}
+                            <span class="badge bg-danger px-3 py-2">
+                                {{ student.attendance }}%
+                            </span>
+                            {% endif %}
+                        </td>
 
-                            <a href="{{ url_for('student_detail', id=student.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('student_detail', id=student.id) }}"
+                                class="btn btn-sm btn-outline-primary">View</a>
                             {% if session.role == 'admin' %}
-                            <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-sm btn-outline-warning">Edit</a>
-                            <a href="{{ url_for('delete_student', id=student.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete {{student.name}}?')">Delete</a>
+                            <a href="{{ url_for('edit_student', id=student.id) }}"
+                                class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a href="{{ url_for('delete_student', id=student.id) }}"
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Are you sure you want to delete {{student.name}}?')">Delete</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -148,36 +149,37 @@
 </div>
 
 
+
 <script>
-    
-    
+
+
     const searchInput = document.getElementById('searchInput');
     const allRows = document.querySelectorAll('#tableBody tr');
     const resultInfo = document.getElementById('resultInfo');
 
-    searchInput.addEventListener('keyup', function() {
-    const query = this.value.toLowerCase();
-    let matchCount = 0;
-    allRows.forEach(function(row) {
-        const name = row.dataset.name || '';
-        const roll = row.dataset.roll || '';
-        const course = row.dataset.course || '';
+    searchInput.addEventListener('keyup', function () {
+        const query = this.value.toLowerCase();
+        let matchCount = 0;
+        allRows.forEach(function (row) {
+            const name = row.dataset.name || '';
+            const roll = row.dataset.roll || '';
+            const course = row.dataset.course || '';
 
 
-        if(name.includes(query) || roll.includes(query) || course.includes(query)){
-            row.style.display = '';
-            matchCount++;
-        } else {
-            row.style.display = 'none';
+            if (name.includes(query) || roll.includes(query) || course.includes(query)) {
+                row.style.display = '';
+                matchCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        if (matchCount === 0) {
+            resultInfo.textContent = "NO students found";
+        }
+        else {
+            resultInfo.textContent = matchCount + "students(s) found";
         }
     });
-    if (matchCount === 0){
-        resultInfo.textContent = "NO students found";
-    }
-    else{
-        resultInfo.textContent = matchCount + "students(s) found";
-    }
-});
 
 
 </script>

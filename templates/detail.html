@@ -3,80 +3,81 @@
 <div class="row justify-content-center">
     <div class="col-md-6">
         <!-- Detail card -->
-         <div class="card shadow-sm mb-4">
-            <div class="card-header py-3"
-            style="background-color : #2e0314;">
-            <h4 class="mb-0 text-white"> 👤Student Detail</h4>
-        </div>
-        <div class="card-body p-4">
-            <div class="text-center mb-4">
-                <div class="avtar rounded-circle bg-secondary text-white
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3" style="background-color : #2e0314;">
+                <h4 class="mb-0 text-white"> 👤Student Detail</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <!-- <div class="avatar rounded-circle bg-secondary text-white
                 d-inline-flex align-items-center justify-content-center"
                 style="width: 80px; height: 80px; font-size: 30px;">
                 {{student['name'][0]|upper }}
-                </div>
+                </div>-->
+                    <img src="{{ url_for('static', filename='uploads/' ~ student.photo) }}" class="rounded-circle me-2"
+                        style="width: 80px; height: 80px; object-fit:cover;" alt="{{ student.name }}">
 
-         <h3 class="fw-bold">{{ student['name'] }}</h3>
-        </div>
-        <!--details -->
-        <table class="table table-borderless">
-            <tr>
-                <th class="text-muted fw-bold"> Name:</th>
-                <td>{{ student['name']}}</td>
-            </tr>
-            <tr>
-                <th class="text-muted fw-bold">Course:</th>
-                <td>{{ student['course']}}
-            </tr>
-            <tr>
-                <th class="text-muted fw-bold">Subject:</th>
-                <td>{{ student['subject']}}</td>
-            </tr>
-            <tr>
-                <th class="text-muted fw-bold">Attendance:</th>
-                <td>{{ student['attendance']}}</td>
-            </tr>
-            <tr>
-                <td class="text-muted fw-bold">Marks</td>
-                <td>{{ student['marks']}}
-                
-                <!-- progressbar -->
-                 <div  class="progress mt-2"style="height:8px;">
-                    <div class ="progress-bar
+                    <h3 class="fw-bold">{{ student['name'] }}</h3>
+
+                </div>
+                <!--details -->
+                <table class="table table-borderless">
+                    <tr>
+                        <th class="text-muted fw-bold"> Name:</th>
+                        <td>{{ student['name']}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted fw-bold">Course:</th>
+                        <td>{{ student['course']}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted fw-bold">Subject:</th>
+                        <td>{{ student['subject']}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted fw-bold">Attendance:</th>
+                        <td>{{ student['attendance']}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted fw-bold">Marks</th>
+                        <td>{{ student['marks']}}
+
+                            <!-- progressbar -->
+                            <div class="progress mt-2" style="height:8px;">
+                                <div class="progress-bar
 
 
                     {% if student['marks'] >=85 %}bg-success
                     {% elif student['marks'] >=75 %}bg-primary
                     {% elif student['marks'] >=60 %}bg-warning
-                    {% else %}bg-danger{% endif %}"
-                    style="width : {{ student['marks']}}%;">
-                    </div>
-                 </div>
-                </td>
-            </tr>
-            
-            </table>
-         </div>
+                    {% else %}bg-danger{% endif %}" style="width : {{ student['marks']}}%;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
 
-          <!-- AI Tips section -->
-                <div class="mb-3">
-                        <h5 class="fw-bold">AI Study Tips:</h5>
-                        {% if tip %}
-                        <div class ="alert alert-info">{{ tip }}</div>
-                        {% else %}
-                        <a href="{{url_for('get_ai_tip', id=student['id'])}}" class="btn btn-primary ms-3">Get AI Study Tips</a>
-                        {% endif %}
-                </div>
-                <div class="text-center mb-2">
-                            <a href="{{url_for('records')}}" class="btn btn-outline-primary">
-                            Back to records
-                            </a>
-                </div>
+                </table>
+            </div>
 
+            <!-- AI Tips section -->
+            <div class="mb-3">
+                <h5 class="fw-bold">AI Study Tips:</h5>
+                {% if tip %}
+                <div class="alert alert-info">{{ tip }}</div>
+                {% else %}
+                <a href="{{url_for('get_ai_tip', id=student['id'])}}" class="btn btn-primary ms-3">Get AI Study Tips</a>
+                {% endif %}
+            </div>
+            <div class="text-center mb-2">
+                <a href="{{url_for('records')}}" class="btn btn-outline-primary">
+                    Back to records
+                </a>
+            </div>
+
+
+        </div>
 
     </div>
 
-</div>
 
-    
-{% endblock %}
+    {% endblock %}
